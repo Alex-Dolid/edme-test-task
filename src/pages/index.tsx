@@ -1,15 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import { useState } from "react";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const planets = [
   {id: 1, title: 'Jupiter'},
@@ -65,25 +54,38 @@ export default function Home() {
   }
 
   return (
-    <div className={`${geistSans.className} ${geistMono.className} min-h-screen p-20 font-[family-name:var(--font-geist-sans)]`}>
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+    <div className={`min-h-screen p-20`}>
+      <main className="flex flex-col gap-[32px]">
         {
           planets.map((planet) => {
             const selectedMoons = selectedPlanetMoons.get(planet.id) || new Set<Moon['id']>();
-            return (
-              <div className="flex items-center" key={planet.id}>
+            const nestedOrbits = [...selectedMoons].reduceRight(
+              (child, moonId, i) => (
+                <div
+                  key={moonId}
+                  className="planet-moon-circle"
+                  style={{
+                    width: 100 + ((selectedMoons.size - i) * 10),
+                    height: 100 + ((selectedMoons.size - i) * 10),
+                  }}
+                >
+                  {child}
+                </div>
+              ),
+              (
                 <div className="planet">
                   <p className="w-full flex items-center justify-center text-center font-bold">
                     <span>{planet.title}</span>
-                    <span className={`ml-1.5 text-(--selected)`}>{selectedMoons.size}</span>
+                    {!!selectedMoons.size && <span className="ml-1 text-[color:var(--selected)]">{selectedMoons.size}</span>}
                   </p>
-                  {
-                    selectedMoons
-                      .keys()
-                      .map((moonId, i) => (
-                        <div key={moonId} className={`planet-moon-circle`} />
-                      ))
-                  }
+                </div>
+              )
+            );
+
+            return (
+              <div className="flex items-center max-h-[100px]" key={planet.id}>
+                <div className="planet-wrapper">
+                  {nestedOrbits}
                 </div>
                 {
                   moonsByPlanet.get(planet.id)?.map((moon) => (
@@ -92,7 +94,7 @@ export default function Home() {
                       className={selectedMoons.has(moon.id) ? `moon !bg-(--selected)` : `moon`}
                       onClick={() => handleMoonClick(planet.id, moon.id)}
                     >
-                      <span className="font-mono">{moon.title}</span>
+                      <span>{moon.title}</span>
                     </div>
                   ))
                 }

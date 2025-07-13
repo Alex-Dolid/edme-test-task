@@ -26,6 +26,12 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.planet-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .planet {
   width: 100px;
   height: 100px;
@@ -42,6 +48,9 @@ body {
   border-radius: 50%;
   pointer-events: none;
   border: 2px solid var(--selected);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .moon {
