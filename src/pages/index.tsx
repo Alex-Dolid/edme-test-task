@@ -58,6 +58,9 @@ export default function Home() {
       <main className="flex flex-col gap-[32px]">
         {
           planets.map((planet) => {
+            const PLANET_HEIGHT = 100;
+            const ORBIT_BASE_PADDING = 10;
+
             const selectedMoons = selectedPlanetMoons.get(planet.id) || new Set<Moon['id']>();
             const nestedOrbits = [...selectedMoons].reduceRight(
               (child, moonId, i) => (
@@ -65,8 +68,8 @@ export default function Home() {
                   key={moonId}
                   className="planet-moon-circle"
                   style={{
-                    width: 100 + ((selectedMoons.size - i) * 10),
-                    height: 100 + ((selectedMoons.size - i) * 10),
+                    width: PLANET_HEIGHT + ((selectedMoons.size - i) * ORBIT_BASE_PADDING),
+                    height: PLANET_HEIGHT + ((selectedMoons.size - i) * ORBIT_BASE_PADDING),
                   }}
                 >
                   {child}
