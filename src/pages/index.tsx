@@ -75,14 +75,24 @@ export default function Home() {
                 <div className="planet">
                   <p className="w-full flex items-center justify-center text-center font-bold">
                     <span>{planet.title}</span>
-                    { !!selectedMoons.size && <span className={`ml-1.5 text-(--selected)`}>{selectedMoons.size}</span> }
+                    <span className={`ml-1.5 text-(--selected)`}>{selectedMoons.size}</span>
                   </p>
+                  {
+                    selectedMoons
+                      .keys()
+                      .map((moonId, i) => (
+                        <div key={moonId} className={`planet-moon-circle`} />
+                      ))
+                  }
                 </div>
                 {
                   moonsByPlanet.get(planet.id)?.map((moon) => (
-                    <div className={selectedMoons.has(moon.id) ? `moon !bg-(--selected)` : `moon`} key={moon.id}
-                         onClick={() => handleMoonClick(planet.id, moon.id)}>
-                    <span className="font-mono">{moon.title}</span>
+                    <div
+                      key={moon.id}
+                      className={selectedMoons.has(moon.id) ? `moon !bg-(--selected)` : `moon`}
+                      onClick={() => handleMoonClick(planet.id, moon.id)}
+                    >
+                      <span className="font-mono">{moon.title}</span>
                     </div>
                   ))
                 }

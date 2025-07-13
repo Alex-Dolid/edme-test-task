@@ -35,6 +35,15 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.planet-moon-circle {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  pointer-events: none;
+  border: 2px solid var(--selected);
+}
+
 .moon {
   margin-left: 50px;
   width: 80px;
